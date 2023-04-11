@@ -21,6 +21,7 @@ namespace УчетБюдж
     public partial class MainWindow : Window
     {
         List<UchetClass> dengi = new List<UchetClass>();
+        string[] items;
         public MainWindow()
         {
             InitializeComponent();
@@ -28,15 +29,17 @@ namespace УчетБюдж
 
             DateTime dateTime = DateTime.Now;
             Calend.Text = dateTime.ToString();
-            List<Serial> lll = Serial.MyDeser<List<Serial>>();
-            foreach (Serial serial in lll)
+            List<Serial> list = Serial.MyDeser<List<Serial>>();
+            for (int i = 0; i < list.Count;i++) {
+                
+            }
+            foreach (Serial serial in list)
             {
                 items?.Append(serial.name);
             }
             Tabliza.ItemsSource = items;
 
         }
-        string[] items;
         /*string nname;
         int mmon;
         string ttype;
@@ -60,40 +63,48 @@ namespace УчетБюдж
             DateTime ddata = Convert.ToDateTime(Calend.Text);
             lala.data = ddata.ToShortDateString();
             lll.Add(lala);
-            Serial.MySeriali<List<Serial>>(lll);
-        }
-
-        private void Change_Click(object sender, RoutedEventArgs e)
-        {
-            List<Serial> lll = Serial.MyDeser<List<Serial>>();
-            foreach (Serial Serial in lll)
+            Serial.MySeriali(lll);
+            foreach (Serial Serial in lll.ToList())
             {
-                if ((Serial.name.Equals(Pis1.Text) || Serial.money.Equals(Convert.ToInt32(Pis2.Text)))
-                    && Serial.data.Equals(Calend.Text))
+                if (Serial.data == Calend.DisplayDate.ToString())
                 {
                     Serial.name = Pis1.Text;
                     Serial.money = Convert.ToInt32(Pis2.Text);
                 }
             }
-           Serial.MySeriali<List<Serial>>(lll);
+            Tabliza.ItemsSource = lll;
+        }
+
+        private void Change_Click(object sender, RoutedEventArgs e)
+        {
+            List<Serial> lll = Serial.MyDeser<List<Serial>>();
+
+            foreach ( Serial serial in lll.ToList())
+            {
+                if (serial.name == Pis1.Text || serial.money.ToString() == Pis2.Text)
+                {
+                    serial.name= Pis1.Text;
+                    serial.money= Convert.ToInt32(Pis2.Text);
+                }
+            }
+            Serial.MySeriali(lll);
+            Tabliza.ItemsSource = lll;
         }
 
         private void Del_Click(object sender, RoutedEventArgs e)
         {
             var index = Tabliza.SelectedIndex;
             Tabliza.Items.RemoveAt(Tabliza.SelectedIndex);
-
-
             List<Serial> lll = Serial.MyDeser<List<Serial>>();
-            foreach (Serial Serial in lll)
+            foreach (Serial Serial in lll.ToList())
             {
-                if ((Serial.name.Equals(Pis1.Text) || Serial.money.Equals(Convert.ToInt32(Pis2.Text)))
-                    && Serial.data.Equals(Calend.Text))
+                if (Serial.data == Calend.DisplayDate.ToString())
                 {
                     lll.Remove(Serial);
                 }
             }
-            Serial.MySeriali<List<Serial>>(lll);
+            Serial.MySeriali(lll);
+            Tabliza.ItemsSource = lll;
         }
 
         private void AddType_Click(object sender, RoutedEventArgs e)
@@ -105,7 +116,35 @@ namespace УчетБюдж
 
         private void Tabliza_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UchetClass selected = Tabliza.SelectedItem as UchetClass;
+            UchetClass? selected = Tabliza.SelectedItem as UchetClass;
+            List<Serial> lll = Serial.MyDeser<List<Serial>>();
+            if (selected != null)
+            {
+                foreach (Serial Serial in lll.ToList())
+                {
+                    if (Serial.data == Calend.DisplayDate.ToString())
+                    {
+                        Serial.name = Pis1.Text;
+                        Serial.money = Convert.ToInt32(Pis2.Text);
+                    }
+                }
+            }
+            Serial.MySeriali(lll);
+            Tabliza.ItemsSource = lll;
+        }
+
+        private void Calend_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<Serial> lll = Serial.MyDeser<List<Serial>>();
+            var meow = new List<Serial>();
+            foreach (Serial serial in lll.ToList())
+            {
+                if (serial.data == Calend.SelectedDate.ToString())
+                {
+                    meow.Add(serial);
+                    Tabliza.ItemsSource = meow;
+                }
+            }
         }
     }
 }

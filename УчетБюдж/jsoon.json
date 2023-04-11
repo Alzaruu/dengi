@@ -1,2 +1,30 @@
-{
-}
+[
+  {
+    "name": "lala",
+    "type": "rhf",
+    "money": 1000,
+    "postVich": false,
+    "data": "07.04.2023"
+  },
+  {
+    "name": "jp",
+    "type": "kncls",
+    "money": 100,
+    "postVich": false,
+    "data": "07.04.2023"
+  },
+  {
+    "name": "jefc",
+    "type": "jnc,s",
+    "money": 89,
+    "postVich": false,
+    "data": "07.04.2023"
+  },
+  {
+    "name": "дфдфд",
+    "type": "длвсьв",
+    "money": -1000,
+    "postVich": false,
+    "data": "07.04.2023"
+  }
+]
